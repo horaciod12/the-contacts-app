@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+	<title>The Contacts App</title>
+
+</head>
+
+<body>
+
+	<div class="container" ng-controller="AppCtrl">
+		
+		<h1>The Contacts App</h1>
+
+		<table class="table">
+		
+			<thead>
+				<tr>
+					<th class="pointer" ng-click="sort('name')"><i class="fa fa-sort" aria-hidden="true"></i> Name</th>					
+					<th class="pointer" ng-click="sort('email')"><i class="fa fa-sort" aria-hidden="true"></i> Email</th>
+					<th class="pointer" ng-click="sort('number')"><i class="fa fa-sort" aria-hidden="true"></i> Number</th>
+					<th>Action</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><input class="form-control" ng-model="contact.name"></td>
+					<td><input class="form-control" ng-model="contact.email"></td>
+					<td><input class="form-control" ng-model="contact.number"></td>
+					<td id="btnAdd"><button class="btn btn-primary" ng-click="add()" ng-disabled="!contact.name">Add Contact</button></td>
+					<td><button class="btn btn-info" ng-click="update()">Update</button>&nbsp;&nbsp;
+					<button class="btn btn-info" ng-click="cancel()">Cancel</button></td>
+				</tr>
+				<tr ng-repeat="contact in contactlist | orderBy: sorted | filter: {'name': contact.name}">
+					<td>{{contact.name}}</td>
+					<td>{{contact.email}}</td>
+					<td>{{contact.number}}</td>
+					<td><button class="btn btn-danger" ng-click="remove(contact._id)">Remove</button></td>
+					<td><button class="btn btn-warning" ng-click="edit(contact._id)">Edit</button></td>
+				</tr>
+			</tbody>
+			
+		</table>
+
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="controllers/controller.js"></script>
+
+</body>
+</html>

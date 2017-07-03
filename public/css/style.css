@@ -1,0 +1,12 @@
+h1 {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+button.btn-info {
+	display: none;
+}
+
+th.pointer:hover {
+	cursor: pointer;
+}
