@@ -8,5 +8,13 @@
     "start": "node server.js"
   },
   "author": "Horacio",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "6.10.2"
+  },
+  "dependencies": {
+    "body-parser": "1.17.2",
+    "express": "4.15.3",
+    "mongojs": "2.4.0"
+  }
 }
