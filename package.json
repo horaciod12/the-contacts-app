@@ -1,5 +1,5 @@
 {
-  "name": "contactsapp",
+  "name": "contacts-app",
   "version": "1.0.0",
   "description": "Add, delete, and edit contacts",
   "main": "server.js",
