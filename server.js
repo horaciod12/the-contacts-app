@@ -1,14 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
+var ObjectID = mongodb.ObjectID;
 
 const app = express();
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-
-//const MongoClient = require('mongodb').MongoClient;
-var ObjectID = mongodb.ObjectID;
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
 	
