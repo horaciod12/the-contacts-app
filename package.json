@@ -1,7 +1,7 @@
 {
-  "name": "contactsapp",
+  "name": "The Contacts App",
   "version": "1.0.0",
-  "description": "contactsapp",
+  "description": "Add, delete, and edit contacts",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
