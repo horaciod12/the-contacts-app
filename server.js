@@ -1,55 +1,87 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongodb = require('mongodb');
+var ObjectID = mongodb.ObjectID;
 
-var mongojs = require('mongojs');
-var db = mongojs('contacts', ['contacts']);
-
-var bodyParser = require('body-parser');
-
-
-app.use(express.static(__dirname + "/public"));
+const app = express();
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
-app.get('/contacts', function (req, res) {
-	console.log("I received a GET request");
-	db.contacts.find(function(err, docs) {
-		console.log(docs);
-		res.json(docs);
+
+const MONGO_URL = 'mongodb://admin:admin@ds151202.mlab.com:51202/thecontactsappdb';
+
+mongodb.MongoClient.connect(MONGO_URL, (err, db) => {
+	
+	if (err) {
+		return console.log(err);
+	}
+
+	app.get('/api/contacts', function(req, res) {
+  		db.collection('contacts').find({}).toArray(function(err, docs) {
+    		if (err) {
+      			handleError(res, err.message, 'Failed to get contacts.');
+    		} else {
+      			res.status(200).json(docs);
+    		}
+  		});
 	});
-});
 
-app.post('/contacts', function(req, res) {
-	console.log(req.body);
-	db.contacts.insert(req.body, function(err, doc) {
-		res.json(doc);
+
+	app.post('/api/contacts', function(req, res) {
+		var newContact = req.body;
+		
+		db.collection('contacts').insertOne(newContact, function(err, doc) {
+			if (err) {
+		  		handleError(res, err.message, 'Failed to create new contact.');
+			} else {
+		  		res.status(201).json(doc.ops[0]);
+			}
+		});
 	});
-});
 
-app.delete('/contacts/:id', function(req, res) {
-	var id = req.params.id;
-	console.log(id);
-	db.contacts.remove({_id: mongojs.ObjectId(id)}, function(err, doc) {
-		res.json(doc);
+
+	app.delete('/api/contacts/:id', function(req, res) {
+		db.collection('contacts').deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+			if (err) {
+				handleError(res, err.message, 'Failed to delete contact.');
+			} else {
+				res.status(200).json(req.params.id);
+			}
+		});
 	});
-});
 
-app.get('/contacts/:id', function(req, res) {
-	var id = req.params.id;
-	console.log(id);
-	db.contacts.findOne({_id: mongojs.ObjectId(id)}, function(err, doc) {
-		res.json(doc);
+
+	app.get('/api/contacts/:id', function(req, res) {
+		db.collection('contacts').findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+			if (err) {
+				handleError(res, err.message, 'Failed to get contact.');
+			} else {
+				res.status(200).json(doc);
+			}
+		});
 	});
+
+
+	app.put('/api/contacts/:id', function(req, res) {
+		var updateDoc = req.body;
+		delete updateDoc._id;
+
+		db.collection('contacts').updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+			if (err) {
+				handleError(res, err.message, 'Failed to update contact.');
+			} else {
+				updateDoc._id = req.params.id;
+				res.status(200).json(updateDoc);
+			}
+		});
+	});
+
 });
 
-app.put('/contacts/:id', function(req, res) {
-	var id = req.params.id;
-	console.log(req.body.name);
-	db.contacts.findAndModify({
-		query: {_id: mongojs.ObjectId(id)},
-		update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
-		new: true}, function(err, doc) { res.json(doc); });
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
 });
-
-
-app.listen(3000);
-console.log('Server running on port 3000');

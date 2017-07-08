@@ -3,8 +3,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', function($scope, $http) {
 
 	var refresh = function() {
-		$http.get('/contacts').then(function(response) {
-			console.log('I got the data I requested');
+		$http.get('/api/contacts').then(function(response) {
 			$scope.contactlist = response.data;
 			$scope.contact = {};
 		});
@@ -14,22 +13,19 @@ myApp.controller('AppCtrl', function($scope, $http) {
 
 	
 	$scope.add = function() {
-		console.log($scope.contact);
-		$http.post('/contacts', $scope.contact).then(function(response) {
+		$http.post('/api/contacts', $scope.contact).then(function(response) {
 			refresh();
 		});
 	};
 
 	$scope.remove = function(id) {
-		console.log(id);
-		$http.delete('/contacts/' + id).then(function(response) {
+		$http.delete('/api/contacts/' + id).then(function(response) {
 			refresh();
 		});
 	};
 
 	$scope.edit = function(id) {
-		console.log(id);
-		$http.get('/contacts/' + id).then(function(response) {
+		$http.get('/api/contacts/' + id).then(function(response) {
 			$scope.contact = response.data;
 
 			$('#btnAdd').hide();
@@ -40,8 +36,7 @@ myApp.controller('AppCtrl', function($scope, $http) {
 	};
 
 	$scope.update = function() {
-		console.log($scope.contact._id);
-		$http.put('/contacts/' + $scope.contact._id, $scope.contact).then(function(response) {
+		$http.put('/api/contacts/' + $scope.contact._id, $scope.contact).then(function(response) {
 			refresh();
 
 			$('.btn-info').hide();

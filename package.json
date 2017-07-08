@@ -1,20 +1,28 @@
 {
-  "name": "contacts_app",
+  "name": "the-contacts-app",
   "version": "1.0.0",
-  "description": "Add, delete, edit contacts.",
+  "description": "Add, delete, and edit contacts.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Horacio",
-  "license": "ISC",
-  "engines": {
-    "node": "6.10.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/horaciod12/the-contacts-app.git"
   },
+  "author": "HD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/horaciod12/the-contacts-app/issues"
+  },
+  "homepage": "https://github.com/horaciod12/the-contacts-app#readme",
   "dependencies": {
     "body-parser": "1.17.2",
     "express": "4.15.3",
-    "mongojs": "2.4.0"
+    "mongodb": "2.2.30"
+  },
+  "engines": {
+    "node": "6.10.2"
   }
 }
