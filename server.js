@@ -1,14 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
-var ObjectID = mongodb.ObjectID;
+
 
 const app = express();
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 const MongoClient = require('mongodb').MongoClient;
 const MONGO_URL = 'mongodb://admin:admin@ds151202.mlab.com:51202/thecontactsappdb';
+var ObjectID = mongodb.ObjectID;
+
 
 MongoClient.connect(MONGO_URL, (err, db) => {
 	
